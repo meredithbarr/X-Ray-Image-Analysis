@@ -1,4 +1,4 @@
-# Tomography-Segmentation
+# Tomography Segmentation
 Interactively-tunable code for segmentation of reconstructed tomograms
 
 Instructions: (1) run in setupmode=1 (2) comment out all "%for setup"
