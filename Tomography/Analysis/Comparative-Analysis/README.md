@@ -1,7 +1,9 @@
 # Tomography-Analysis
 Code for processing and comparative analysis of tomogram segmentation data
 
-Comparative Analysis: analyses pore and particle surface data and plots comparative figures
+## Comparative Analysis
+
+Analyses pore and particle surface data and plots comparative figures
 
 Instructions: input scans to be compared into "tomo_figs.m" and run
 
