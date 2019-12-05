@@ -1,4 +1,4 @@
-# Radiography-Analysis
+# Radiography Analysis
 Code for comparative analysis of radiograph segmentation data
 
 Instructions: enter scans to be compared into "rad_figs.m" and run
