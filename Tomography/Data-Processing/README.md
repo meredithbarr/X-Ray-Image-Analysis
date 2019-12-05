@@ -1,7 +1,9 @@
-# Tomography-Analysis
+# Tomography Analysis
 Code for processing and comparative analysis of tomogram segmentation data
 
-Data Processing: determines properties and locations of individual pores and particle surfaces from tomogram segmentations.
+## Data Processing
+
+Determines properties and locations of individual pores and particle surfaces from tomogram segmentations.
 
 Instructions: enter scans to be analysed into "pore_dist_looper.m" and run
 
