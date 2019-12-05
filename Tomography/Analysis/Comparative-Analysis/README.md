@@ -1,4 +1,4 @@
-# Tomography-Analysis
+# Tomography Analysis
 Code for processing and comparative analysis of tomogram segmentation data
 
 ## Comparative Analysis
