@@ -3,7 +3,7 @@
 % Nov 7 2019
 % 
 % This is a FUNCTION to analyze distribution of pores within particles or
-% beds from segmented tomographs.
+% beds from segmented tomograms.
 % 
 % Inputs: scan, slice_range
 %
