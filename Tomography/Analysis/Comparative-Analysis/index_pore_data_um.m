@@ -2,8 +2,8 @@
 % Meredith Barr
 % Nov 13 2019
 %
-% This FUNCTION indexes the output data files from RadSeg_HPC.m for a given
-% set of scan numbers.
+% This FUNCTION indexes the output data files from RadSeg_laptop.m for a
+% given set of scan numbers.
 %
 % Inputs: scans (array of scan numbers to index)
 % Outputs: data (struct containing data formatted for plotting by 'overlay'
