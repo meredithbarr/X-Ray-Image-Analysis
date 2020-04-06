@@ -56,25 +56,20 @@ else
 end
 ylim([0,1]);
 % tha=char(10752);
-% yl=sprintf('Degree of Pore Concentration, %c',tha); %not wokring as of
-% 18/11/2019
+% yl=sprintf('Degree of Pore Concentration, %c',tha); %character not printing as of 18/11/2019
 yl=char(['Degree of pore concentration,  ']);
 ylabel(yl)
 if isempty(xtit)==0
     xlabel(xtit);
 end
-% %make legend
-% if sneakyparam==0
-%     lgd=legend(leglabels);
-%     %lgd.Orientation='horizontal';
-%     lgd.Location='northwest';
-%     lgd.Box='off';
-%     lgd.Title.String = legtitle;
-% end
-% %enlarge font size
-% set(findall(gcf,'-property','FontSize'),'FontSize',18)
-% %Enlarge figure to full screen.
-% set(gcf, 'Units', 'Normalized', 'OuterPosition', [0.05, 0, 0.9, 1]);
+%make legend
+if sneakyparam==0
+    lgd=legend(leglabels);
+    %lgd.Orientation='horizontal';
+    lgd.Location='northwest';
+    lgd.Box='off';
+    lgd.Title.String = legtitle;
+end
 
 %save figure
 figname=sprintf('%s_pore_conc_bar',figtitle);
