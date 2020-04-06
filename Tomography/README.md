@@ -1,3 +1,3 @@
 # Tomography
 
-Segmentation and analysis code for reconstructed tomogram slices
+Segmentation and analysis code for reconstructed tomogram sequences
