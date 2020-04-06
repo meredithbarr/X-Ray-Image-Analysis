@@ -24,7 +24,7 @@ if setupmode==1
     sample=input('enter sample treatment and material as char >>>');
 
     disp('Unpacking file...');
-    %index the aligned tiff file
+    %index the aligned tiff file (aligned using ImageJ Template Matching plugin)
     imagefile=sprintf('%d.tif',imagefilenum);
     imarray=loadtiff(imagefile);
     
@@ -77,7 +77,7 @@ B=imclose(B,s);
 B=imcomplement(B);
 tubeonly=immultiply(B,im);
 
-%SETUP step 3
+%setup threshold for defining tube walls
 if setupmode==1
     imshow(B)
     adjust=input('adjust wall highlight threshold?');
@@ -205,7 +205,7 @@ B=imcomplement(B);
 BWtubenomesh=B;
 tubenomesh=immultiply(BWtubenomesh,tubenowalls);
 
-%SETUP step 4
+%setup threshold for defining wire mesh
 if setupmode==1
     imshow(tubenomesh)
     adjust=input('adjust mesh removal threshold?');
@@ -233,8 +233,6 @@ end
 clearvars B C tubenowalls adjust
 
 %% Section 3: Segment gas vs solid
-
-%SETUP step 6
 
 %harvest edges from image
 [~, threshold] = edge(tubenomesh, 'sobel');
@@ -273,10 +271,10 @@ gas=bwareaopen(gas,500);
 solidcomp(i)=bwarea(solid)/bwarea(cell);
 gascomp(i)=bwarea(gas)/bwarea(cell);
 
-%find average pixel value bed as a proxy measure of porosity
+%find average pixel value of bed as a proxy measure of porosity and bed packing density
 bedonly=immultiply(tubenomesh,solid);
 APV=mean2(nonzeros(bedonly));
-%normalize by tube APV
+%normalize by tube APV to account for image to image variation (results in much smoother data)
 tubenobed=immultiply(tubenomesh,gas);
 APVgas=mean2(nonzeros(tubenobed));
 APVn(i)=APV/APVgas;
@@ -319,7 +317,7 @@ gasgrey=gasdouble.*2;
 label=imadd(gasgrey,soliddouble);
 rgb = labeloverlay(tubenomesh, label);
 
-% SETUP step 5
+%tune segmentation parameters
 if setupmode==1
     imshow(rgb)
     adjust=input('adjust params?');
@@ -465,7 +463,7 @@ if setupmode==0
 disp('beginning analysis');
 
 %create a time axis assuming every 10 images were harvested for the aligned
-%multi tiff image file
+%tiff stack
 t=linspace(1,stack*50/60,stack);
 %Read temperature history from control files
 %read heating file
@@ -490,7 +488,7 @@ disp('making figures');
 
 %make figure
 figure
-% PVCA: Percentage of Void Cross-Sectional Area
+% CSA: Cross-Sectional Area
 subplot(2,1,1);
 yyaxis left
 plot(t,solidcomp*100,t,solidcomp_3d*100);
@@ -512,7 +510,7 @@ hold
 subplot(2,1,2);
 yyaxis left
 plot(t,APVn);
-title({'Normalized Average Radiograph Intensity of Pyrolyzing Solid Bed'});
+title({'Normalised Average Radiograph Intensity of Pyrolysing Solid Bed'});
 xlabel('Time (min)');
 ylabel('Normalised Intensity');
 %ylim([0 1])
