@@ -7,11 +7,11 @@
 % .tiff files, which are used as input for a variety of analyses including
 % pore distribution (pore_dist_looper.m).
 %
-% Instructions: (1) run in setupmode=1 (2) comment out all "%for setup"
-% lines and uncomment all "%for looping" lines (3) set scan numbers below
-% (4) run
+% Instructions: (1) run with "%for setup" lines active for each scan to
+% be segmented (2) comment out all "%for setup" lines and uncomment all 
+% "%for looping" lines (3) set scan numbers below (line 17) (4) run
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%input scan number
+%input scan number(s)
 %scan=str2num(getenv('SGE_TASK_ID')); %for HPC
 
 %for scan=[119330,119332,119334,119336] %for looping
@@ -19,10 +19,10 @@
 scan=119336; %for setup
 
 %setup mode
-setupmode=input('enter setup mode?'); %for setup
+setupmode=1; %for setup
 %setupmode=0; %for looping
 
-% load input params and begin parallel processing in not in setup mode
+% load input params and begin parallel processing if not in setup mode
 % also define slice ranges based on mode
 if setupmode==0
     filename=sprintf('%i/input_params_%i.mat',[scan,scan]);
@@ -125,7 +125,8 @@ for n=slicerange %for setup
             imshow(im)
             repeat=input('change x/y displacement?');
         end
-        crop=input('input max displacement from alignment');
+        crop=input('input max displacement from alignment'); 
+        %refers to alignment of tube using ImageJ Template Matching plugin
             %run section
             % Create the circle in the image
             centerX = dims(1)/2+xdisp;
