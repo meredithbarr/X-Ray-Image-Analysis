@@ -8,7 +8,7 @@ Segmentation and analysis code for radiograph sequences
 
 ## Tomography
 
-Segmentation and analysis code for reconstructed tomogram slices
+Segmentation and analysis code for reconstructed tomogram sequences
 
 # Author Info
 Meredith Rose Barr
