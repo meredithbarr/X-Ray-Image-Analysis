@@ -8,13 +8,6 @@
 function[data]=pore_totvol_dist_plot(data,figtitle,incscans,leglabels,legtitle)
 figure;
 %set line colors
-%greyscale palette
-% color=[.8,.8,.8;...
-%     .6,.6,.6;...
-%     .4,.4,.4;...
-%     .2,.2,.2];
-
-%colorful palette
 color=[0.12, 0.47, 0.71;... %blue
     0.2, 0.63, 0.17;... %green
     1, 0.5, 0;... %orange
@@ -36,22 +29,19 @@ end
 %clean up
 clearvars loop scan
 
-% process data into plotable format
+% process data into plottable format
 % iterate through scans
 for i=index
     %remove outlier pores
-    %create positions array of pore volumes to include (get rid of pores
-    %>100000 um3)
-    %positions_include=data(i).volume<=200000;
+    %create positions array of pore volumes to include (exclude pores greater than 1 std dev above the mean pore volume)
+    %this is to exclude any large connected networks of pores, for which centroid distance to a surface would not be meaningful
     positions_include=data(i).volume<=(mean(data(i).volume+std(data(i).volume)));
     
     %find the total pore volume in each bin
 
     %iterate through bins
 
-    %set number of bins and max distance (set to max distance measured, 
-    % but could instead be set to 2000 um because greater distances
-    % must be due to a cropping error (cell is 4mm ID))
+    %set number of bins and max distance (set to maximum particle size: 2 mm)
     binmax=2000; %um
     bins=200;
     %initialize loop vars
@@ -71,9 +61,6 @@ for i=index
         positions_high=data(i).distance<limit_high;
         % sum volume in bin (y values)
         pvi(b)=sum(data(i).volume.*positions_include.*positions_low.*positions_high);
-%         totvol(b)=smoothdata(sum(data(i).volume.*positions_include.*positions_low.*positions_high)...
-%             /sum(positions_include.*positions_low.*positions_high),'movmedian',50); %removes outliers
-        %maximum(b)=max(data(i).volume.*positions_include.*positions_low.*positions_high);
         
         % x values for area plots
         dist(b)=mean(limit_low,limit_high);
@@ -85,17 +72,15 @@ for i=index
     
     %index results to data struct
     data(i).x=dist;
-    %normalize data
+    %normalise and smooth data
     data(i).y=smoothdata(pvi.*100./sum(pvi),'loess',50);
-    %data(i).y=smoothdata(pvi,'loess',50);
-    %data(i).y=smooth(avg,50); %smooths the curve
-    %data(i).y=pvi.*100./sum(pvi);
     
     %find plot local maximum
     [peaks,locs]=findpeaks(data(i).y);
-    data(i).plotmax=(max(peaks)-0.5)/.3654; 
-    %-.5 makes this deviation from random distribution, .3654 normalizes by
-    %max local maximum from all scans
+    maxplotmax=1; %MANUAL ENTRY NECESSARY: enter maximum "plotmax" from data struct after running all scans, then rerun
+    data(i).plotmax=(max(peaks)-100/bins)/maxplotmax; 
+    %-100/bins makes this deviation from equal distribution, /maxplotmax normalises by
+    %the maximum local max, considering all scans
 end
     
 %plot data
@@ -109,16 +94,16 @@ end
 
 %axis limits and labels
 title(figtitle);
-ylabel({'Percentage of total pore volume in 100 \mum band (%)'});
+ylabel({'Percentage of total pore volume in 10 \mum band (%)'});
 xlabel('Distance from particle surface (\mum)');
 axis tight
 ax=axis;
 ax(3)=0;
-ax(4)=100/bins*2; %set so that central line of plot indicates random distribution
+ax(4)=100/bins*2; %set so that central line of plot indicates equal distribution
 axis(ax);
 
-%add horizontal line a 0.5 (even distribution)
-yline(0.5,'LineStyle','--');
+%add horizontal line at equal distribution value
+yline(100/bins,'LineStyle','--');
 
 %check if legend is specified
 if length(leglabels)>1
@@ -136,31 +121,4 @@ saveas(gcf,figname,'epsc');
 saveas(gcf,figname,'svg');
 
 hold off
-
-% %plot maxima
-% figure;
-% 
-% %re-index plot maxima
-% %initialize loop counter
-% loop=0;
-% for i=index
-%     loop=loop+1;
-%     pm(loop)=data(i).plotmax;
-%     hold on;
-% end
-% 
-% labels=categorical(leglabels,leglabels); %repeat keeps original order
-% b=bar(labels,pm);
-% b.FaceColor='flat';
-% b.CData(1:length(labels),:)=color(1:length(labels),:);
-% ylim([0,1]);
-% ylabel('Degree of Pore Concentration');
-% title(figtitle);
-% 
-% %save figure
-% figname=sprintf('%s_pore_totvolmax_dist',figtitle);
-% savefig(figname);
-% saveas(gcf,figname,'epsc');
-% 
-% hold off
 end
