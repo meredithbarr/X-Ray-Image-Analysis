@@ -2,7 +2,7 @@
 % Meredith Barr
 % Nov 12 2019
 %
-% This FUNCTION indexes the output data files from RadSeg_HPC.m for a given
+% This FUNCTION indexes the output data files from RadSeg_laptop.m for a given
 % set of scan numbers.
 %
 % Inputs: scans (array of scan numbers to index)
