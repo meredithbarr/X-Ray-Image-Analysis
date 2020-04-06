@@ -355,7 +355,7 @@ if setupmode==1
         BWdil=imdilate(BWfill,[se90 se0]);
         solid=imdilate(BWdil,[se90 se0]);
         
-        %% Section 4: Analyse regions
+        % Analyse regions
 
         %define regions
         cell=BWtubenomesh;
@@ -367,7 +367,7 @@ if setupmode==1
         solidcomp(i)=bwarea(solid)/bwarea(cell);
         gascomp(i)=bwarea(gas)/bwarea(cell);
 
-        %find average pixel value bed as a proxy measure of porosity
+        %find average pixel value
         bedonly=immultiply(tubenomesh,solid);
         APV=mean2(nonzeros(bedonly));
         %normalize by tube APV
@@ -399,12 +399,7 @@ if setupmode==1
         CSAtovol=nonzeros(bed_diam_short)./nonzeros(tube_diam_short);
         solidcomp_3d(i)=mean(CSAtovol.^2);
 
-        %% Section 5: Create graphics
-
-        % Outlined bed
-        % BWoutline = bwperim(solid,8);
-        % Segout = tubenomesh; 
-        % Segout(BWoutline) = 255;
+        % Create graphic
 
         %Masked bed and gas
         gasdouble=im2double(gas);
