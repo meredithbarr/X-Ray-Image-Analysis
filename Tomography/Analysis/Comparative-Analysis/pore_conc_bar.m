@@ -40,18 +40,17 @@ labels=categorical(xlab,xlab); %repeat keeps original order
 b=bar(labels,pm,'FaceColor','flat');
 % set bar colors
 if sneakyparam==1
-    b(1).CData(1,:)=[0.7,0.87,0.54];... %light green
+    b(1).CData(1,:)=[0.7,0.87,0.54];... %light green for raw sample
     b(1).CData(2,:)=color(1,:);
     b(1).CData(3,:)=color(1,:);
     b(1).CData(4,:)=color(1,:);
-    b(2).CData(1,:)=[0.65,0.81,0.9]; %light blue
+    b(2).CData(1,:)=[0.65,0.81,0.9]; %light blue for raw sample
     b(2).CData(2,:)=color(2,:);
     b(2).CData(3,:)=color(2,:);
     b(2).CData(4,:)=color(2,:);   
 else
     for n=1:size(pm,2)
         b(n).CData=color(n,:);
-        %b(n).EdgeColor=color(n,:);
     end
 end
 ylim([0,1]);
@@ -65,7 +64,6 @@ end
 %make legend
 if sneakyparam==0
     lgd=legend(leglabels);
-    %lgd.Orientation='horizontal';
     lgd.Location='northwest';
     lgd.Box='off';
     lgd.Title.String = legtitle;
